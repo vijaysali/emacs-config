@@ -36,7 +36,7 @@
 (load "escreen")
 (escreen-install)
 
-(load-theme 'dusk)
+(load-theme 'dusk t)
 
 (global-set-key (kbd "M-1") 'escreen-goto-screen-0)
 (global-set-key (kbd "M-2") 'escreen-goto-screen-1)
