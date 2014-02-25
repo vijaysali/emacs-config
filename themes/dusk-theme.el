@@ -35,7 +35,7 @@
  '(highline-face ((t (:background "DeepSkyBlue4" :foreground "white"))))
  '(italic ((t (nil))))
  '(left-margin ((t (nil))))
- '(text-cursor ((t (:background "yellow" :foreground "black"))))
+ '(cursor ((t (:background "yellow"))))
  '(toolbar ((t (nil))))
  '(underline ((nil (:underline nil))))
  '(minibuffer-prompt ((t (:foreground "DeepSkyBlue2" :background "black" :weight bold))))

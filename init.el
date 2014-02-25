@@ -76,3 +76,14 @@
           (dired-do-kill-lines))
       (progn (revert-buffer) ; otherwise just revert to re-show
              (set (make-local-variable 'dired-dotfiles-show-p) t)))))
+
+
+(setq backup-directory-alist `(("." . "~/.emacs.d/.saves")))
+(setq delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)
+
+(setq custom-file "~/.emacs.d/emacs-custom.el")
+(when (file-exists-p custom-file)
+  (load custom-file))
