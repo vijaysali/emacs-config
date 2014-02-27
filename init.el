@@ -49,7 +49,7 @@
 (global-set-key [C-right] 'escreen-goto-next-screen)
 (global-set-key [C-left]  'escreen-goto-prev-screen)
 
-;; cljojure stuff 
+;; cljojure stuff
 (require 'clj-parenface)
 (add-hook 'clojure-mode-hook 'tweak-clojure-syntax)
 
@@ -61,6 +61,41 @@
 (add-to-list 'auto-mode-alist '("\.ru$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Guardfile$" . ruby-mode))
+
+;; ocaml mode
+
+;; -- common-lisp compatibility if not added earlier in your .emacs
+(require 'cl)
+
+;; -- Tuareg mode -----------------------------------------
+(require 'tuareg)
+(setq auto-mode-alist
+      (append '(("\\.ml[ily]?$" . tuareg-mode))
+          auto-mode-alist))
+
+;; -- Tweaks for OS X -------------------------------------
+;; Tweak for problem on OS X where Emacs.app doesn't run the right
+;; init scripts when invoking a sub-shell
+(cond
+ ((eq window-system 'ns) ; macosx
+  ;; Invoke login shells, so that .profile or .bash_profile is read
+  (setq shell-command-switch "-lc")))
+
+;; -- opam and utop setup --------------------------------
+;; Setup environment variables using opam
+(dolist
+    (var (car (read-from-string
+               (shell-command-to-string "opam config env --sexp"))))
+  (setenv (car var) (cadr var)))
+;; Update the emacs path
+(setq exec-path (split-string (getenv "PATH") path-separator))
+;; Update the emacs load path
+(push (concat (getenv "OCAML_TOPLEVEL_PATH")
+          "/../../share/emacs/site-lisp") load-path)
+;; Automatically load utop.el
+(autoload 'utop "utop" "Toplevel for OCaml" t)
+(autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
+(add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
 
 ;; dired mode
 
