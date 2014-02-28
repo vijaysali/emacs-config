@@ -1,10 +1,8 @@
 (require 'packages)
-(install-packages '(highline 
+(install-packages '(highline
                     dired-details
-                    wdired))
-
-(setq dotfiles-dir (file-name-directory
-                    (or (buffer-file-name) load-file-name)))
+                    wdired
+		    diredful))
 
 (require 'highline)
 (defun highline-mode-on () (highline-mode 1))
