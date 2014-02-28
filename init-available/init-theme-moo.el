@@ -1,8 +1,7 @@
 (require 'packages)
 (install-packages '(color-theme))
 
-(require 'color-theme-moo)
-(color-theme-moo)
+(load-theme 'moo t)
 
 (set-default-font "Monaco-13")
 
