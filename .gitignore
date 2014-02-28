@@ -1,1 +1,9 @@
 *.elc
+*.dat
+abbrev_defs
+places
+elpa
+backups
+.saves
+auto-save-list
+init-enabled
