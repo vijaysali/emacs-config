@@ -1,8 +1,7 @@
 (require 'packages)
 (install-packages '(highline
                     dired-details
-                    wdired
-		    diredful))
+                    wdired))
 
 (require 'highline)
 (defun highline-mode-on () (highline-mode 1))

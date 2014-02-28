@@ -132,6 +132,7 @@
   (substitute-patterns-with-unicode
    (list (cons "\\(<-\\)" 'left-arrow)
          (cons "\\(->\\)" 'right-arrow)
+	 (cons "\\<fun\\>" 'lambda)
          (cons "\\[^=\\]\\(=\\)\\[^=\\]" 'equal)
          (cons "\\(==\\)" 'identical)
          (cons "\\(\\!=\\)" 'not-identical)
