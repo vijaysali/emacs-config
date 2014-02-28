@@ -32,8 +32,8 @@
  '(highline-face ((t (:background "DeepSkyBlue4" :foreground "white"))))
  '(italic ((t (nil))))
  '(left-margin ((t (nil))))
- '(region ((t (:background "#E4F1FE"))))
- '(secondary-selection ((t (:background "blue" :foreground "#F4F4FF"))))
+ '(region ((t (:background "blue"))))
+ '(secondary-selection ((t (:background "darkblue" :foreground "#F4F4FF"))))
 
  '(text-cursor ((t (:background "yellow" :foreground "black"))))
  '(toolbar ((t (nil))))

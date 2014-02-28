@@ -1,5 +1,7 @@
+(require 'packages)
+(install-packages '(erlang
+                    distel))
 
-;; This is needed for Erlang mode setup
 (setq load-path (cons "/usr/local/Cellar/erlang/R14B03/lib/erlang/lib/tools-2.6.6.4/emacs" load-path))
 (setq erlang-root-dir "/usr/local/Cellar/erlang")
 (setq exec-path (cons "/usr/local/Cellar/erlang/R14B03/bin/" exec-path))
@@ -31,8 +33,7 @@
 ("\M-?" erl-complete)
 ("\M-." erl-find-source-under-point)
 ("\M-," erl-find-source-unwind)
-("\M-*" erl-find-source-unwind)
-)
+("\M-*" erl-find-source-unwind))
 "Additional keys to bind when in Erlang shell.")
 
 (add-hook 'erlang-shell-mode-hook
@@ -41,4 +42,4 @@
 (dolist (spec distel-shell-keys)
 (define-key erlang-shell-mode-map (car spec) (cadr spec)))))
 
-(provide 'starter-kit-erlang)
+(provide 'init-erlang)

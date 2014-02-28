@@ -1,4 +1,10 @@
-(setq load-path (cons "~/.emacs.d/vendor/tuareg/" load-path))
+(require 'packages)
+(install-packages '(tuareg
+                    auto-complete))
+
+(defvar opam-prefix-path "/usr/local/bin/opam config var prefix")
+(defvar opam-share-path "/usr/local/bin/opam config var share")
+(defvar opam-bin-path "/usr/local/bin/opam config var bin")
 
 (add-to-list 'auto-mode-alist '("\\.ml[iylp]?" . tuareg-mode))
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
@@ -11,26 +17,27 @@
 (load-file
  (concat
   (substring
-   (shell-command-to-string "/usr/local/bin/opam config var prefix") 0 -1)
+   (shell-command-to-string opam-prefix-path) 0 -1)
   "/share/typerex/ocp-indent/ocp-indent.el"))
 
 ;; merlin
 (setq opam-share
       (substring
-       (shell-command-to-string "/usr/local/bin/opam config var share") 0 -1))
+       (shell-command-to-string opam-share-path) 0 -1))
 
 (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+
 (require 'merlin)
 
 (setq merlin-command
       (concat
        (substring
-        (shell-command-to-string "/usr/local/bin/opam config var bin") 0 -1)
+        (shell-command-to-string opam-bin-path) 0 -1)
        "/ocamlmerlin"))
 
 (setq ocp-indent-path
       (concat
-       (substring (shell-command-to-string "/usr/local/bin/opam config var bin") 0 -1)
+       (substring (shell-command-to-string opam-bin-path) 0 -1)
        "/ocp-indent"))
 
 
@@ -41,7 +48,6 @@
 (setq merlin-use-auto-complete-mode t)
 
 ;; utop
-
 (autoload 'utop "utop" "Toplevel for OCaml" t)
 (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
 (add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
@@ -54,13 +60,13 @@
   (shell-command-to-string "/usr/local/bin/opam config -env")
   ";[ \r\n\t]*"))
 
-(setq utop-command 
+(setq utop-command
       (concat
-       (substring (shell-command-to-string "/usr/local/bin/opam config var bin") 0 -1)
+       (substring (shell-command-to-string opam-bin-path) 0 -1)
        "/utop" " " "-emacs"))
 
 
-;; some pretty symbols 
+;; some pretty symbols
  (defun unicode-symbol (name)
     "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
   or GREATER-THAN into an actual Unicode character code. "
@@ -104,16 +110,16 @@
                         ('beta #X03B2)
                         ('gamma #X03B3)
                         ('delta #X03B4))))
-                        
+
   (defun substitute-pattern-with-unicode (pattern symbol)
-    "Add a font lock hook to replace the matched part of PATTERN with the 
+    "Add a font lock hook to replace the matched part of PATTERN with the
   Unicode symbol SYMBOL looked up with UNICODE-SYMBOL."
     (interactive)
     (font-lock-add-keywords
      nil `((,pattern (0 (progn (compose-region (match-beginning 1) (match-end 1)
                                               ,(unicode-symbol symbol))
                               nil))))))
-  
+
   (defun substitute-patterns-with-unicode (patterns)
     "Call SUBSTITUTE-PATTERN-WITH-UNICODE repeatedly."
     (mapcar #'(lambda (x)
@@ -126,6 +132,7 @@
   (substitute-patterns-with-unicode
    (list (cons "\\(<-\\)" 'left-arrow)
          (cons "\\(->\\)" 'right-arrow)
+	 (cons "\\<fun\\>" 'lambda)
          (cons "\\[^=\\]\\(=\\)\\[^=\\]" 'equal)
          (cons "\\(==\\)" 'identical)
          (cons "\\(\\!=\\)" 'not-identical)
@@ -150,11 +157,30 @@
          (cons "\\<\\(List.mem\\)\\>" 'element-of)
          (cons "^ +\\(|\\)" 'double-vertical-bar))))
 
+(defun ocp-indent-buffer ()
+  (interactive nil)
+  (ocp-indent-region (point-min) (point-max)))
+
+(defun repl-hooks()
+  (auto-highlight-symbol-mode)
+  (autopair-mode)
+  (rainbow-delimiters-mode))
+
+(defun ocaml-hooks()
+  (local-set-key (kbd "M-e") 'tuareg-eval-buffer)
+  (local-set-key (kbd "M-/") 'utop-edit-complete)
+  (local-set-key (kbd "M-q") 'ocp-indent-buffer)
+  (local-set-key (kbd "M-n") 'merlin-phrase-next)
+  (local-set-key (kbd "M-p") 'merlin-phrase-prev)
+  (local-set-key (kbd "M-t") 'merlin-type-enclosing)
+  (local-set-key (kbd "M-l") 'merlin-locate))
+
 
 (add-hook 'tuareg-mode-hook
           '(lambda ()
              (merlin-mode)
              (ocaml-unicode)
+             (ocaml-hooks)
              (setq compile-command
                    (concat "corebuild -pkg core "
                            (file-name-sans-extension buffer-file-name)
