@@ -1,3 +1,7 @@
+(require 'packages)
+(install-packages '(tuareg
+                    auto-complete))
+
 (setq load-path (cons "~/.emacs.d/vendor/tuareg/" load-path))
 
 (add-to-list 'auto-mode-alist '("\\.ml[iylp]?" . tuareg-mode))

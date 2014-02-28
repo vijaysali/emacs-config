@@ -1,3 +1,5 @@
+(require 'packages)
+(install-packages '(color-theme))
 
 (require 'color-theme-moo)
 (color-theme-moo)

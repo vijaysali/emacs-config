@@ -1,3 +1,8 @@
+(require 'packages)
+
+(install-packages '(slime
+                    paredit))
+
 (defun pretty-lambdas ()
   (font-lock-add-keywords
    nil `(("(?\\(lambda\\>\\)"

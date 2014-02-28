@@ -1,3 +1,8 @@
+(require 'packages)
+(install-packages '(clojure-mode
+                    clojure-test-mode
+                    cider
+                    paredit))
 
 ;; cljojure stuff
 (require 'clj-parenface)
