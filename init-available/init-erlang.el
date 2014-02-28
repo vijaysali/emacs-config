@@ -1,5 +1,5 @@
 (require 'packages)
-(install-packages '(erlang 
+(install-packages '(erlang
                     distel))
 
 (setq load-path (cons "/usr/local/Cellar/erlang/R14B03/lib/erlang/lib/tools-2.6.6.4/emacs" load-path))
@@ -33,8 +33,7 @@
 ("\M-?" erl-complete)
 ("\M-." erl-find-source-under-point)
 ("\M-," erl-find-source-unwind)
-("\M-*" erl-find-source-unwind)
-)
+("\M-*" erl-find-source-unwind))
 "Additional keys to bind when in Erlang shell.")
 
 (add-hook 'erlang-shell-mode-hook

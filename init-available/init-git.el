@@ -11,4 +11,7 @@
      (set-face-foreground 'magit-diff-add "green3")
      (set-face-foreground 'magit-diff-del "red3")))
 
+;; Default to unified diffs
+(setq diff-switches "-u")
+
 (provide 'init-git)

@@ -1,6 +1,8 @@
 (require 'packages)
 
 (install-packages '(slime
+                    paredit
+                    parenface
                     paredit))
 
 (defun pretty-lambdas ()
@@ -15,19 +17,10 @@
 (define-key lisp-mode-shared-map (kbd "RET") 'reindent-then-newline-and-indent)
 (define-key lisp-mode-shared-map (kbd "C-c v") 'eval-buffer)
 
-(defface esk-paren-face
-   '((((class color) (background dark))
-      (:foreground "grey50"))
-     (((class color) (background light))
-      (:foreground "grey55")))
-   "Face used to dim parentheses."
-   :group 'starter-kit-faces)
+(require 'parenface)
 
-;;; Emacs Lisp
-
-(defun paren-change ()
-  (require 'paredit)
-  (paredit-mode 1))
+(require 'paredit)
+(paredit-mode 1)
 
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'emacs-lisp-mode-hook 'esk-remove-elc-on-save)
@@ -51,11 +44,10 @@
                slime-fuzzy))
 (setq
  inferior-lisp-program "/usr/local/bin/sbcl"
- slime-complete-symbol-function 'slime-fuzzy-complete-symbol 
+ slime-complete-symbol-function 'slime-fuzzy-complete-symbol
  slime-startup-animation t)
 
 
 (slime-require :swank-listener-hooks)
 
 (provide 'init-cl)
-

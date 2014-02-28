@@ -7,7 +7,7 @@
 ;; cljojure stuff
 (defmacro defclojureface (name color desc &optional others)
   `(defface ,name '((((class color)) (:foreground ,color ,@others))) ,desc :group 'faces))
- 
+
 (defclojureface clojure-parens       "DimGrey"   "Clojure parens")
 (defclojureface clojure-braces       "#49b2c7"   "Clojure braces")
 (defclojureface clojure-brackets     "SteelBlue" "Clojure brackets")
@@ -16,7 +16,7 @@
 (defclojureface clojure-java-call    "#4bcf68"   "Clojure Java calls")
 (defclojureface clojure-special      "#b8bb00"   "Clojure special")
 (defclojureface clojure-double-quote "#b8bb00"   "Clojure special" (:background "unspecified"))
- 
+
 (defun tweak-clojure-syntax ()
   (mapcar (lambda (x) (font-lock-add-keywords nil x))
           '((("#?['`]*(\\|)"       . 'clojure-parens))
@@ -56,5 +56,11 @@
           (font-lock-mark-block-function . mark-defun)
           (font-lock-syntactic-face-function
            . lisp-font-lock-syntactic-face-function))))
+
+(eval-after-load 'grep
+  '(when (boundp 'grep-find-ignored-files)
+    (add-to-list 'grep-find-ignored-files "target")
+    (add-to-list 'grep-find-ignored-files "*.class")))
+
 
 (provide 'init-clj)
