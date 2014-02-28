@@ -76,11 +76,6 @@
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 
-;; nxhtml stuff
-(setq mumamo-chunk-coloring 'submode-colored
-      nxhtml-skip-welcome t
-      indent-region-mode t
-      rng-nxml-auto-validate-flag nil)
 
 ;; Associate modes with file extensions
 

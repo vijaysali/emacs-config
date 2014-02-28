@@ -13,6 +13,7 @@
                       highline
                       dired-details
                       wdired
+                      json-mode
                       markdown-mode
                       textile-mode))
 
