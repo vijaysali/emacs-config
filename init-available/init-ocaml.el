@@ -132,7 +132,7 @@
   (substitute-patterns-with-unicode
    (list (cons "\\(<-\\)" 'left-arrow)
          (cons "\\(->\\)" 'right-arrow)
-	 (cons "\\<fun\\>" 'lambda)
+	 (cons "\\(fun\\)" 'lambda)
          (cons "\\[^=\\]\\(=\\)\\[^=\\]" 'equal)
          (cons "\\(==\\)" 'identical)
          (cons "\\(\\!=\\)" 'not-identical)
@@ -174,7 +174,6 @@
   (local-set-key (kbd "M-p") 'merlin-phrase-prev)
   (local-set-key (kbd "M-t") 'merlin-type-enclosing)
   (local-set-key (kbd "M-l") 'merlin-locate))
-
 
 (add-hook 'tuareg-mode-hook
           '(lambda ()
