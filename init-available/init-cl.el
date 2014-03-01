@@ -37,8 +37,7 @@
 
 (require 'slime)
 
-(slime-setup '(slime-fancy
-               slime-tramp
+(slime-setup '(slime-tramp
                slime-asdf
                slime-banner
                slime-fuzzy))
