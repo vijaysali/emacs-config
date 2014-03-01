@@ -1,9 +1,6 @@
 (require 'packages)
 
-(install-packages '(slime
-                    paredit
-                    parenface
-                    paredit))
+(install-packages '(parenface paredit))
 
 (defun pretty-lambdas ()
   (font-lock-add-keywords
@@ -35,6 +32,8 @@
 
 (define-key emacs-lisp-mode-map (kbd "M-.") 'find-function-at-point)
 
+
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
 (require 'slime)
 
 (slime-setup '(slime-tramp
@@ -42,11 +41,8 @@
                slime-banner
                slime-fuzzy))
 (setq
- inferior-lisp-program "/usr/local/bin/sbcl"
+ inferior-lisp-program "sbcl"
  slime-complete-symbol-function 'slime-fuzzy-complete-symbol
  slime-startup-animation t)
-
-
-(slime-require :swank-listener-hooks)
 
 (provide 'init-cl)
