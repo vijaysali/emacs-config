@@ -30,7 +30,7 @@
 
   (mapc (lambda (name)
         (require (intern (file-name-sans-extension name))))
-	(directory-files ".emacs.d/init-enabled" nil "\\.el$"))
+	(directory-files "~/.emacs.d/init-enabled" nil "\\.el$"))
 
   (setq custom-file "~/.emacs.d/emacs-custom.el")
   (when (file-exists-p custom-file)
