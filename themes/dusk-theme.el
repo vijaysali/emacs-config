@@ -1,11 +1,11 @@
 ;; Dusk Colour Theme for Emacs.
-;;
-(deftheme dusk "twilight fork")
+;; Inspired by twilight
+(deftheme dusk "Dusk theme")
 
-(custom-theme-set-faces 
+(custom-theme-set-faces
  'dusk
- '(default 
-    ((t (:inherit nil :stipple nil :background "black" :foreground "gray65" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown"))))
+ '(default
+    ((t (:inherit nil :stipple nil :background "black" :foreground "gray85" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown"))))
  '(font-lock-preprocessor-face ((t (:inherit font-lock-builtin-face :foreground "olive drab"))))
  '(blue ((t (:foreground "blue"))))
  '(bold ((t (:bold t))))
@@ -20,17 +20,19 @@
  '(font-lock-keyword-face ((t (:foreground "#CDA978"))))
  '(font-lock-preprocessor-face ((t (:foreground "olive drab"))))
  '(font-lock-reference-face ((t (:foreground "SlateBlue"))))
- 
+ '(font-lock-type-face ((t (:foreground "forest green"))))
+ '(font-lock-variable-name-face ((t (:foreground "steel blue"))))
+ '(tuareg-font-lock-governing-face ((t (:foreground "dark red" :weight normal))))
+ '(tuareg-font-lock-operator-face ((t (:foreground "gainsboro"))))
  '(font-lock-regexp-grouping-backslash ((t (:foreground "#E9C062"))))
  '(font-lock-regexp-grouping-construct ((t (:foreground "red"))))
- 
  '(font-lock-string-face ((t (:foreground "#8F9D6A"))))
  '(font-lock-type-face ((t (:foreground "#9B703F"))))
  '(font-lock-variable-name-face ((t (:foreground "#7587A6"))))
  '(font-lock-warning-face ((t (:bold t :foreground "Pink"))))
  '(gui-element ((t (:background "#303030" :foreground "black"))))
  '(region ((t (:background "#444444"))))
- '(mode-line ((t (:background "#303030" :foreground "black" :box (:line-width 1 :color "SteelBlue4")))))
+ '(mode-line ((t (:background "#303030" :foreground "DeepSkyBlue2" :box (:line-width 1 :color "SteelBlue4")))))
  '(highlight ((t (:background "#222222"))))
  '(highline-face ((t (:background "DeepSkyBlue4" :foreground "white"))))
  '(italic ((t (nil))))
