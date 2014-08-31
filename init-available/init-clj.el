@@ -1,6 +1,5 @@
 (require 'packages)
 (install-packages '(clojure-mode
-                    clojure-test-mode
                     cider
                     paredit))
 
@@ -28,6 +27,8 @@
             (("(\\(\\.[^ \n)]*\\|[^ \n)]+\\.\\|new\\)\\([ )\n]\\|$\\)" 1 'clojure-java-call)))))
 
 (add-hook 'clojure-mode-hook 'tweak-clojure-syntax)
+
+(defvar clojure-mode-font-lock-comment-sexp nil)
 
 (defun clojure-font-lock-setup ()
   (interactive)
