@@ -18,7 +18,8 @@
  (concat
   (substring
    (shell-command-to-string opam-prefix-path) 0 -1)
-  "/share/typerex/ocp-indent/ocp-indent.el"))
+  "/share/emacs/site-lisp/ocp-indent.el"))
+;;  "/share/typerex/ocp-indent/ocp-indent.el"))
 
 ;; merlin
 (setq opam-share
@@ -167,6 +168,7 @@
   (rainbow-delimiters-mode))
 
 (defun ocaml-hooks()
+  (local-set-key (kbd "C-c M-p") 'merlin-use)
   (local-set-key (kbd "M-e") 'tuareg-eval-buffer)
   (local-set-key (kbd "M-/") 'utop-edit-complete)
   (local-set-key (kbd "M-q") 'ocp-indent-buffer)
@@ -178,7 +180,7 @@
 (add-hook 'tuareg-mode-hook
           '(lambda ()
              (merlin-mode)
-             (ocaml-unicode)
+             ; (ocaml-unicode)
              (ocaml-hooks)
              (setq compile-command
                    (concat "corebuild -pkg core "

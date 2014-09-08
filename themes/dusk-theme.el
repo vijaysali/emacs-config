@@ -2,10 +2,10 @@
 ;;
 (deftheme dusk "twilight fork")
 
-(custom-theme-set-faces 
+(custom-theme-set-faces
  'dusk
- '(default 
-    ((t (:inherit nil :stipple nil :background "black" :foreground "gray65" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown"))))
+ '(default
+    ((t (:inherit nil :stipple nil :background "black" :foreground "gray75" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown"))))
  '(font-lock-preprocessor-face ((t (:inherit font-lock-builtin-face :foreground "olive drab"))))
  '(blue ((t (:foreground "blue"))))
  '(bold ((t (:bold t))))
@@ -20,10 +20,10 @@
  '(font-lock-keyword-face ((t (:foreground "#CDA978"))))
  '(font-lock-preprocessor-face ((t (:foreground "olive drab"))))
  '(font-lock-reference-face ((t (:foreground "SlateBlue"))))
- 
+
  '(font-lock-regexp-grouping-backslash ((t (:foreground "#E9C062"))))
  '(font-lock-regexp-grouping-construct ((t (:foreground "red"))))
- 
+
  '(font-lock-string-face ((t (:foreground "#8F9D6A"))))
  '(font-lock-type-face ((t (:foreground "#9B703F"))))
  '(font-lock-variable-name-face ((t (:foreground "#7587A6"))))

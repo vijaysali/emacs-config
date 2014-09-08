@@ -25,13 +25,13 @@
   (scroll-bar-mode -1)
   (show-paren-mode 1)
   (mouse-wheel-mode t)
-  (blink-cursor-mode -1)
+  (blink-cursor-mode t)
   (recentf-mode 0)
 
   (mapc (lambda (name)
         (require (intern (file-name-sans-extension name))))
 	(directory-files "~/.emacs.d/init-enabled" nil "\\.el$"))
-
   (setq custom-file "~/.emacs.d/emacs-custom.el")
   (when (file-exists-p custom-file)
-    (load custom-file)))
+    (load custom-file))
+  (load-theme 'dusk))
