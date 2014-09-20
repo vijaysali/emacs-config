@@ -27,7 +27,6 @@
   (mouse-wheel-mode t)
   (blink-cursor-mode t)
   (recentf-mode 0)
-
   (mapc (lambda (name)
         (require (intern (file-name-sans-extension name))))
 	(directory-files "~/.emacs.d/init-enabled" nil "\\.el$"))

@@ -48,4 +48,11 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
+
+(require 'powerline)
+(powerline-default-theme)
+
+
 (provide 'init-misc)
