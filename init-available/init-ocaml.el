@@ -14,6 +14,53 @@
 (dolist (ext '(".cmo" ".cmx" ".cma" ".cmxa" ".cmi"))
   (add-to-list 'completion-ignored-extensions ext))
 
+
+;;;;
+
+;; Setup environment variables using opam
+(dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
+  (setenv (car var) (cadr var)))
+
+;; Update the emacs path
+(setq exec-path (append (parse-colon-path (getenv "PATH"))
+                        (list exec-directory)))
+
+;; Update the emacs load path
+(add-to-list 'load-path (expand-file-name "../../share/emacs/site-lisp"
+                                          (getenv "OCAML_TOPLEVEL_PATH")))
+
+;; Automatically load utop.el
+(autoload 'utop "utop" "Toplevel for OCaml" t)
+
+(mapc
+ (lambda (line)
+   (when (string-match "\\(.*\\)=\\(.*\\)" line)
+     (setenv (match-string 1 line) (match-string 2 line))))
+ (split-string
+  (shell-command-to-string "opam config -env")
+  ";[ \r\n\t]*"))
+
+;; Add opam emacs directory to the load-path
+(setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
+(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+
+;; Load merlin-mode
+(require 'merlin)
+
+;; Start merlin on ocaml files
+(add-hook 'tuareg-mode-hook 'merlin-mode t)
+(add-hook 'caml-mode-hook 'merlin-mode t)
+
+;; Enable auto-complete
+(setq merlin-use-auto-complete-mode 'easy)
+
+;; Use opam switch to lookup ocamlmerlin binary
+(setq merlin-command 'opam)
+
+
+
+;;;;
+
 (load-file
  (concat
   (substring
@@ -27,6 +74,7 @@
        (shell-command-to-string opam-share-path) 0 -1))
 
 (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+
 
 (require 'merlin)
 
@@ -48,6 +96,14 @@
 (ac-config-default)
 (setq merlin-use-auto-complete-mode t)
 
+
+
+(load-file "~/.opam/system/share/emacs/site-lisp/utop.el")
+(autoload 'utop "utop" "Toplevel for OCaml" t)
+(autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
+(add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
+(add-hook 'typerex-mode-hook 'utop-setup-ocaml-buffer)
+
 ;; utop
 (autoload 'utop "utop" "Toplevel for OCaml" t)
 (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
@@ -68,72 +124,72 @@
 
 
 ;; some pretty symbols
- (defun unicode-symbol (name)
-    "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
+(defun unicode-symbol (name)
+  "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
   or GREATER-THAN into an actual Unicode character code. "
-    (decode-char 'ucs (case name
-                        ;; arrows
-                        ('left-arrow 8592)
-                        ('up-arrow 8593)
-                        ('right-arrow 8594)
-                        ('down-arrow 8595)
-                        ;; boxes
-                        ('double-vertical-bar #X2551)
-                        ;; relational operators
-                        ('equal #X003d)
-                        ('not-equal #X2260)
-                        ('identical #X2261)
-                        ('not-identical #X2262)
-                        ('less-than #X003c)
-                        ('greater-than #X003e)
-                        ('less-than-or-equal-to #X2264)
-                        ('greater-than-or-equal-to #X2265)
-                        ;; logical operators
-                        ('logical-and #X2227)
-                        ('logical-or #X2228)
-                        ('logical-neg #X00AC)
-                        ;; misc
-                        ('nil #X2205)
-                        ('horizontal-ellipsis #X2026)
-                        ('double-exclamation #X203C)
-                        ('prime #X2032)
-                        ('double-prime #X2033)
-                        ('for-all #X2200)
-                        ('there-exists #X2203)
-                        ('element-of #X2208)
-                        ;; mathematical operators
-                        ('square-root #X221A)
-                        ('squared #X00B2)
-                        ('cubed #X00B3)
-                        ;; letters
-                        ('lambda #X03BB)
-                        ('alpha #X03B1)
-                        ('beta #X03B2)
-                        ('gamma #X03B3)
-                        ('delta #X03B4))))
+  (decode-char 'ucs (case name
+		      ;; arrows
+		      ('left-arrow 8592)
+		      ('up-arrow 8593)
+		      ('right-arrow 8594)
+		      ('down-arrow 8595)
+		      ;; boxes
+		      ('double-vertical-bar #X2551)
+		      ;; relational operators
+		      ('equal #X003d)
+		      ('not-equal #X2260)
+		      ('identical #X2261)
+		      ('not-identical #X2262)
+		      ('less-than #X003c)
+		      ('greater-than #X003e)
+		      ('less-than-or-equal-to #X2264)
+		      ('greater-than-or-equal-to #X2265)
+		      ;; logical operators
+		      ('logical-and #X2227)
+		      ('logical-or #X2228)
+		      ('logical-neg #X00AC)
+		      ;; misc
+		      ('nil #X2205)
+		      ('horizontal-ellipsis #X2026)
+		      ('double-exclamation #X203C)
+		      ('prime #X2032)
+		      ('double-prime #X2033)
+		      ('for-all #X2200)
+		      ('there-exists #X2203)
+		      ('element-of #X2208)
+		      ;; mathematical operators
+		      ('square-root #X221A)
+		      ('squared #X00B2)
+		      ('cubed #X00B3)
+		      ;; letters
+		      ('lambda #X03BB)
+		      ('alpha #X03B1)
+		      ('beta #X03B2)
+		      ('gamma #X03B3)
+		      ('delta #X03B4))))
 
-  (defun substitute-pattern-with-unicode (pattern symbol)
-    "Add a font lock hook to replace the matched part of PATTERN with the
+(defun substitute-pattern-with-unicode (pattern symbol)
+  "Add a font lock hook to replace the matched part of PATTERN with the
   Unicode symbol SYMBOL looked up with UNICODE-SYMBOL."
-    (interactive)
-    (font-lock-add-keywords
-     nil `((,pattern (0 (progn (compose-region (match-beginning 1) (match-end 1)
-                                              ,(unicode-symbol symbol))
-                              nil))))))
+  (interactive)
+  (font-lock-add-keywords
+   nil `((,pattern (0 (progn (compose-region (match-beginning 1) (match-end 1)
+					     ,(unicode-symbol symbol))
+			     nil))))))
 
-  (defun substitute-patterns-with-unicode (patterns)
-    "Call SUBSTITUTE-PATTERN-WITH-UNICODE repeatedly."
-    (mapcar #'(lambda (x)
-                (substitute-pattern-with-unicode (car x)
-                                                 (cdr x)))
-            patterns))
+(defun substitute-patterns-with-unicode (patterns)
+  "Call SUBSTITUTE-PATTERN-WITH-UNICODE repeatedly."
+  (mapcar #'(lambda (x)
+	      (substitute-pattern-with-unicode (car x)
+					       (cdr x)))
+	  patterns))
 
 (defun ocaml-unicode ()
   (interactive)
   (substitute-patterns-with-unicode
    (list (cons "\\(<-\\)" 'left-arrow)
          (cons "\\(->\\)" 'right-arrow)
-	 (cons "\\(fun\\)" 'lambda)
+	 (cons "\\(fun]\\)" 'lambda)
          (cons "\\[^=\\]\\(=\\)\\[^=\\]" 'equal)
          (cons "\\(==\\)" 'identical)
          (cons "\\(\\!=\\)" 'not-identical)
@@ -180,7 +236,7 @@
 (add-hook 'tuareg-mode-hook
           '(lambda ()
              (merlin-mode)
-             ; (ocaml-unicode)
+					; (ocaml-unicode)
              (ocaml-hooks)
              (setq compile-command
                    (concat "corebuild -pkg core "
