@@ -44,9 +44,6 @@
 ;; Enable auto-complete
 (setq merlin-use-auto-complete-mode 'easy)
 
-;; Use opam switch to lookup ocamlmerlin binary
-(setq merlin-command 'opam)
-
 (load-file
  (concat
   (substring
@@ -58,6 +55,11 @@
        (shell-command-to-string opam-share-path) 0 -1))
 
 (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+
+
+;; Use opam switch to lookup ocamlmerlin binary
+
+;; (setq merlin-command 'opam) ;; eh
 
 (setq merlin-command
       (concat
@@ -81,7 +83,13 @@
 
 ;; Automatically load utop.el
 (autoload 'utop "utop" "Toplevel for OCaml" t)
-(load-file "~/.opam/system/share/emacs/site-lisp/utop.el")
+
+(load-file
+ (concat
+  (substring
+   (shell-command-to-string opam-prefix-path) 0 -1)
+  "/share/emacs/site-lisp/utop.el"))
+
 (autoload 'utop "utop" "Toplevel for OCaml" t)
 (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
 (add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
