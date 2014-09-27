@@ -233,13 +233,18 @@
   (local-set-key (kbd "M-t") 'merlin-type-enclosing)
   (local-set-key (kbd "M-l") 'merlin-locate))
 
+(setq corebuild-command
+      (concat
+       (substring (shell-command-to-string opam-bin-path) 0 -1)
+       "/corebuild -pkg core" " "))
+
 (add-hook 'tuareg-mode-hook
           '(lambda ()
              (merlin-mode)
 					; (ocaml-unicode)
              (ocaml-hooks)
              (setq compile-command
-                   (concat "corebuild -pkg core "
+                   (concat corebuild-command
                            (file-name-sans-extension buffer-file-name)
                            ".byte"))
              (setq indent-line-function 'ocp-indent-line)
