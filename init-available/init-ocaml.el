@@ -10,12 +10,9 @@
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 
-(add-to-list 'auto-mode-alist '("\\.ml[iylp]?" . tuareg-mode))
 (dolist (ext '(".cmo" ".cmx" ".cma" ".cmxa" ".cmi"))
   (add-to-list 'completion-ignored-extensions ext))
 
-
-;;;;
 
 ;; Setup environment variables using opam
 (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
@@ -29,9 +26,6 @@
 (add-to-list 'load-path (expand-file-name "../../share/emacs/site-lisp"
                                           (getenv "OCAML_TOPLEVEL_PATH")))
 
-;; Automatically load utop.el
-(autoload 'utop "utop" "Toplevel for OCaml" t)
-
 (mapc
  (lambda (line)
    (when (string-match "\\(.*\\)=\\(.*\\)" line)
@@ -39,10 +33,6 @@
  (split-string
   (shell-command-to-string "opam config -env")
   ";[ \r\n\t]*"))
-
-;; Add opam emacs directory to the load-path
-(setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
-(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
 
 ;; Load merlin-mode
 (require 'merlin)
@@ -57,26 +47,17 @@
 ;; Use opam switch to lookup ocamlmerlin binary
 (setq merlin-command 'opam)
 
-
-
-;;;;
-
 (load-file
  (concat
   (substring
    (shell-command-to-string opam-prefix-path) 0 -1)
   "/share/emacs/site-lisp/ocp-indent.el"))
-;;  "/share/typerex/ocp-indent/ocp-indent.el"))
 
-;; merlin
 (setq opam-share
       (substring
        (shell-command-to-string opam-share-path) 0 -1))
 
 (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
-
-
-(require 'merlin)
 
 (setq merlin-command
       (concat
@@ -92,30 +73,19 @@
 
 (require 'auto-complete)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+
 (require 'auto-complete-config)
 (ac-config-default)
+
 (setq merlin-use-auto-complete-mode t)
 
-
-
+;; Automatically load utop.el
+(autoload 'utop "utop" "Toplevel for OCaml" t)
 (load-file "~/.opam/system/share/emacs/site-lisp/utop.el")
 (autoload 'utop "utop" "Toplevel for OCaml" t)
 (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
 (add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
 (add-hook 'typerex-mode-hook 'utop-setup-ocaml-buffer)
-
-;; utop
-(autoload 'utop "utop" "Toplevel for OCaml" t)
-(autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
-(add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
-
-(mapc
- (lambda (line)
-   (when (string-match "\\(.*\\)=\\(.*\\)" line)
-     (setenv (match-string 1 line) (match-string 2 line))))
- (split-string
-  (shell-command-to-string "/usr/local/bin/opam config -env")
-  ";[ \r\n\t]*"))
 
 (setq utop-command
       (concat
@@ -241,7 +211,7 @@
 (add-hook 'tuareg-mode-hook
           '(lambda ()
              (merlin-mode)
-					; (ocaml-unicode)
+	     ;; (ocaml-unicode)
              (ocaml-hooks)
              (setq compile-command
                    (concat corebuild-command
