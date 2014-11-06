@@ -1,5 +1,5 @@
 (require 'packages)
-(install-packages '(escreen
+(install-packages '(escreen company powerline
                     jump))
 
 (setq dotfiles-dir (file-name-directory
