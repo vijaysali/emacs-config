@@ -3,7 +3,7 @@
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/init-enabled") t)
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/themes") t)
   (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (setq
    frame-title-format '(buffer-file-name "%f" ("%b"))
    indent-tabs-mode nil
