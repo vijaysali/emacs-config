@@ -1,4 +1,5 @@
 (progn
+  (set-face-attribute 'default nil :height 85)
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/init-enabled") t)
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/themes") t)
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp") t)
